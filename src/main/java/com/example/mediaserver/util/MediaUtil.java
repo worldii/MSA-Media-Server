@@ -1,58 +1,31 @@
 package com.example.mediaserver.util;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.multipart.MultipartFile;
-
-import lombok.Getter;
-
-@Getter
 public class MediaUtil {
-	private  MultipartFile multiPartFile;
-	private  String fileName;
-
-	@Autowired
-	public MediaUtil(MultipartFile multiPartFile){
-		this.multiPartFile = multiPartFile;
-		this.fileName = multiPartFile.getOriginalFilename();
-	}
-
-	public String findContentType() {
-		String ext = fileName.split("\\.")[1];
-		String contentType ="";
+	public static String findContentType(String filename) {
+		String ext = findExt(filename);
 		switch (ext) {
 			case "jpeg":
-				contentType = "image/jpeg";
-				break;
+				return "image/jpeg";
 			case "png":
-				contentType = "image/png";
-				break;
-			case "txt":
-				contentType = "text/plain";
-				break;
-			case "csv":
-				contentType = "text/csv";
-				break;
+				return "image/png";
+			// 비디오도 추가 함. (Refactoring 해야 함)
 		}
-		return contentType;
+		return null;
 	}
 
-	public String findFolder() {
-		String ext = fileName.split("\\.")[1];
-		String folder ="";
+	public static String findFolder(String filename) {
+		String ext = findExt(filename);
+		String folder = "";
 		switch (ext) {
 			case "jpeg":
-				folder = "img/";
-				break;
 			case "png":
 				folder = "img/";
-				break;
-			case "txt":
-				folder = "txt/";
-				break;
-			case "csv":
-				folder = "csv/";
 				break;
 		}
 		return folder;
+	}
+
+	public static String findExt(String fileName) {
+		return fileName.split("\\.")[1];
 	}
 }

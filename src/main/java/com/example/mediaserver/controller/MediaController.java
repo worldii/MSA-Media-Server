@@ -1,39 +1,29 @@
 package com.example.mediaserver.controller;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import javax.validation.Valid;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.example.mediaserver.dto.MediaDto;
+import com.example.mediaserver.dto.MediaResponseData;
+import com.example.mediaserver.dto.ResultCode;
+import com.example.mediaserver.dto.ResultResponse;
 import com.example.mediaserver.service.MediaService;
-import com.example.mediaserver.service.S3Service;
 
 import lombok.RequiredArgsConstructor;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 public class MediaController {
-	// service 지정
-	private final S3Service s3Service;
 	private final MediaService mediaService;
 
-	// upload get
-	@GetMapping("/api/upload")
-	public String goUploadPage() {
-		return "upload";
-	}
-
-	// post upload
-	@PostMapping("/api/upload")
-	public String UploadMedia(MediaDto mediaDto) {
-		// s3 에 upload 하고
-		// repository 에 저장한다.
-		// 1. s3 service 만들기
-		// 2. media service 만들기 ( Repository 에 저장하는)
-		String url = s3Service.uploadMediaToS3(mediaDto.getFile());
-		mediaDto.setUrl(url);
-		mediaService.save(mediaDto);
-		return "redirect:/api/hello";
-
+	@PostMapping("/media")
+	public ResponseEntity<ResultResponse> uploadMedia(MediaDto mediaDto)
+	{
+		MediaResponseData mediaResponseData = mediaService.save(mediaDto);
+		return ResponseEntity.ok(new ResultResponse(ResultCode.MEDIA_UPLOAD_SUCCESS, mediaResponseData));
 	}
 }

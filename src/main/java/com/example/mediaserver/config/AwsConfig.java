@@ -10,9 +10,6 @@ import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 
 @Configurable
 public class AwsConfig {
-	// ACCESS KEY
-	// SECRET KEY
-	// REGION
 	@Value("${cloud.aws.credentials.access-key}")
 	private String accessKey;
 
@@ -22,7 +19,6 @@ public class AwsConfig {
 	@Value("${cloud.aws.region.static}")
 	private String region;
 
-	//  function AMAZON CLIENT
 	// CREDENTIAL을 통해 s3 client 를 생성해 준다.
 	public AmazonS3 amazonS3Client() {
 		BasicAWSCredentials awsCredentials = new BasicAWSCredentials(accessKey, secretKey);
