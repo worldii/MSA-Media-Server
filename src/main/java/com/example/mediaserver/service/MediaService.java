@@ -37,13 +37,13 @@ public class MediaService {
 
 		// Media 레포지토리에 생성.
 		Media media = Media.builder().url(mediaDto.getUrl())
-			//.mediaType(mediaDto.getMediaType()).
+			.mediaType(mediaDto.getMediaType())
 			.user(tempUser).build();
 		mediaRepository.save(media);
 
 		// Media Response API 생성.
 		MediaResponseData mediaResponseData = MediaResponseData.builder()
-			//.mediaType(media.getMediaType())
+			.mediaType(media.getMediaType())
 			.url(media.getUrl())
 			.build();
 

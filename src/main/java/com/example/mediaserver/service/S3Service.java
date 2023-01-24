@@ -6,6 +6,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.util.ObjectUtils;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
@@ -30,25 +31,27 @@ public class S3Service {
 
 	@Transactional
 	public void uploadMediaToS3(MediaDto mediaDto) {
-		log.info("FILENAME"+ mediaDto);
+		//log.info("FILENAME"+ mediaDto);
 		String fileName = mediaDto.getFile().getOriginalFilename();
+		//log.info("CONTENTTYPE"+mediaDto.getFile().getContentType());
 
-		String folder = MediaUtil.findFolder(fileName);
+		//String folder = MediaUtil.findFolder(fileName);
+		String contentType =mediaDto.getFile().getContentType();
+		log.info("CONTENTTYPE"+mediaDto.getFile().getContentType());
 
-		String contentType = MediaUtil.findContentType(fileName);
-		log.info(contentType);
-		//log.info("enum 으로 변환 "+ MediaType.valueOf(contentType));
-		//mediaDto.setMediaType(MediaType.valueOf(contentType));
+		String[] split = contentType.split("/");
+		log.info(split[0]);
+		log.info("enum 으로 변환 "+ MediaType.valueOf(split[0].toUpperCase()));
+		mediaDto.setMediaType(MediaType.valueOf(split[0].toUpperCase()));
 
 		// object 생성 및 content type 지정.
 		ObjectMetadata metadata = new ObjectMetadata();
 		metadata.setContentType(contentType);
 
-
 		// object 의 정보를 가져 온다. 업로드한 object 를 public 에서 접근할 수 있도록 권한 부여.
 		try {
 			amazonS3.putObject(
-				new PutObjectRequest(bucket, folder + fileName, mediaDto.getFile().getInputStream(),
+				new PutObjectRequest(bucket,  fileName, mediaDto.getFile().getInputStream(),
 					metadata).withCannedAcl(
 					CannedAccessControlList.PublicRead));
 		} catch (IOException e) {

@@ -31,9 +31,9 @@ public class Media {
 	@Column(name = "media_id")
 	private Long id;
 
-	// @Enumerated(EnumType.STRING)
-	// @Column(name = "media_type")
-	//private MediaType mediaType;
+	@Enumerated(EnumType.STRING)
+	@Column(name = "media_type")
+	private MediaType mediaType;
 
 	@CreationTimestamp
 	@Column(name = "created_at")
@@ -46,8 +46,8 @@ public class Media {
 	private User user;
 
 	@Builder
-	public Media(String url,User user) {
-		//this.mediaType = mediaType;
+	public Media(String url,User user,  MediaType mediaType) {
+		this.mediaType = mediaType;
 		this.url = url;
 		this.user = user;
 	}

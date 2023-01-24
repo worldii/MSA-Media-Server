@@ -18,5 +18,5 @@ import lombok.Setter;
 public class MediaDto {
 	private String url;
 	private MultipartFile file;
-//	private MediaType mediaType;
+	private MediaType mediaType;
 }

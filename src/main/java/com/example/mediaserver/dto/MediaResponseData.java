@@ -10,5 +10,5 @@ import lombok.Getter;
 @Builder
 public class MediaResponseData {
 	private String url;
-	//private MediaType mediaType;
+	private MediaType mediaType;
 }
