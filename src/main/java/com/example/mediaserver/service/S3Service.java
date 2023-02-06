@@ -4,9 +4,10 @@ import java.io.IOException;
 
 import javax.transaction.Transactional;
 
+import com.example.mediaserver.exception.CustomException;
+import com.example.mediaserver.exception.Errorcode;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.thymeleaf.util.ObjectUtils;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
@@ -14,10 +15,11 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.example.mediaserver.dto.MediaDto;
 import com.example.mediaserver.model.MediaType;
-import com.example.mediaserver.util.MediaUtil;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import static com.example.mediaserver.exception.Errorcode.INTERNAL_SERVER_ERROR;
 
 @Service
 @Slf4j
@@ -30,13 +32,14 @@ public class S3Service {
 	private final AmazonS3 amazonS3;
 
 	@Transactional
-	public void uploadMediaToS3(MediaDto mediaDto) {
-		//log.info("FILENAME"+ mediaDto);
+	public void uploadMediaToS3(MediaDto mediaDto)     {
 		String fileName = mediaDto.getFile().getOriginalFilename();
-		//log.info("CONTENTTYPE"+mediaDto.getFile().getContentType());
+		log.info("FILENAME"+ fileName);
 
+
+		// log.info("CONTENTTYPE"+mediaDto.getFile().getContentType());
 		//String folder = MediaUtil.findFolder(fileName);
-		String contentType =mediaDto.getFile().getContentType();
+		String contentType = mediaDto.getFile().getContentType();
 		log.info("CONTENTTYPE"+mediaDto.getFile().getContentType());
 
 		String[] split = contentType.split("/");
