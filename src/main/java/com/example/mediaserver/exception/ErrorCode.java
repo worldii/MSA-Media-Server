@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum Errorcode
+public enum ErrorCode
 {
     // Global
     INTERNAL_SERVER_ERROR(500, "G001", "내부 서버 오류입니다."),

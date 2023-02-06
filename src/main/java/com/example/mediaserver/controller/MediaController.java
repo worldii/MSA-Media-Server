@@ -15,14 +15,15 @@ import com.example.mediaserver.service.MediaService;
 
 import lombok.RequiredArgsConstructor;
 
+import java.io.IOException;
+
 @RestController
 @RequiredArgsConstructor
 public class MediaController {
 	private final MediaService mediaService;
 
 	@PostMapping("/media")
-	public ResponseEntity<ResultResponse> uploadMedia(MediaDto mediaDto)
-	{
+	public ResponseEntity<ResultResponse> uploadMedia(MediaDto mediaDto) throws IOException {
 		MediaResponseData mediaResponseData = mediaService.save(mediaDto);
 		return ResponseEntity.ok(new ResultResponse(ResultCode.MEDIA_UPLOAD_SUCCESS, mediaResponseData));
 	}
