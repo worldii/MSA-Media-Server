@@ -1,6 +1,7 @@
 package com.example.mediaserver.service;
 
 import java.io.IOException;
+import java.util.Date;
 
 import javax.transaction.Transactional;
 
@@ -31,28 +32,22 @@ public class S3Service {
     private final AmazonS3 amazonS3;
 
     @Transactional
-    public void uploadMediaToS3(MediaDto mediaDto) throws IOException {
-        String fileName = mediaDto.getFile().getOriginalFilename();
-        log.info("FILENAME" + fileName);
-
-        // Folder 설정해줌.
-        //String folder = MediaUtil.findFolder(fileName);
-
-//        String contentType = mediaDto.getFile().getContentType();
+    public void uploadMediaToS3(MediaDto mediaDto, String username) throws IOException {
+        long now = (new Date()).getTime();
+        String fileName = now + mediaDto.getFile().getOriginalFilename();
+        log.info("File name: " + fileName);
 
         String contentType = MediaUtil.findContentType(mediaDto.getFile().getContentType());
-        log.info("CONTENTTYPE" + contentType);
-        log.info("enum 으로 변환 " + MediaType.valueOf(contentType));
-
+        log.info("Content Type change to Enum Type " + MediaType.valueOf(contentType));
         mediaDto.setMediaType(MediaType.valueOf(contentType));
 
-        // object 생성 및 content type 지정.
+        String folder = MediaUtil.findFolder(fileName, username, contentType);
+
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentType(contentType);
 
-        // object 의 정보를 가져 온다. 업로드한 object 를 public 에서 접근할 수 있도록 권한 부여.
         amazonS3.putObject(
-                new PutObjectRequest(bucket, fileName, mediaDto.getFile().getInputStream(),
+                new PutObjectRequest(bucket, folder, mediaDto.getFile().getInputStream(),
                         metadata).withCannedAcl(
                         CannedAccessControlList.PublicRead));
 

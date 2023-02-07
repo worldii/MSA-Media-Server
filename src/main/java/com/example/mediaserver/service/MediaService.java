@@ -22,35 +22,30 @@ import java.io.IOException;
 @RequiredArgsConstructor
 @Slf4j
 public class MediaService {
-	private final MediaRepository mediaRepository;
-	private final S3Service s3Service;
-	private final UserRepository userRepository;
+    private final MediaRepository mediaRepository;
+    private final S3Service s3Service;
+    private final UserRepository userRepository;
 
-	@Transactional
-	public MediaResponseData save(MediaDto mediaDto) throws IOException {
+    @Transactional
+    public MediaResponseData save(MediaDto mediaDto) throws IOException {
+        //Upload 하는 유저 찾아냄(from User Service)
+        User tempUser = new User();
+        tempUser.setId(1L);
+        tempUser.setUserName("Jongha");
+        tempUser.setFullName("park");
+        userRepository.save(tempUser);
 
-		//Upload 하는 유저 찾아냄(from User Service)
-//		//NOT IMPLEMENT // REFACTORING
-		User tempUser = new User();
-		tempUser.setId(1L);
-		tempUser.setUserName("Jongha");
-		tempUser.setFullName("park");
-		userRepository.save(tempUser);
+        s3Service.uploadMediaToS3(mediaDto, "jongha");
 
+        Media media = Media.builder().url(mediaDto.getUrl())
+                .mediaType(mediaDto.getMediaType())
+                .user(tempUser).build();
+        mediaRepository.save(media);
 
-		s3Service.uploadMediaToS3(mediaDto);
-
-//		// Media 레포지토리에 생성.
-		Media media = Media.builder().url(mediaDto.getUrl())
-			.mediaType(mediaDto.getMediaType())
-			.user(tempUser).build();
-		mediaRepository.save(media);
-//
-//		// Media Response API 생성.
-		MediaResponseData mediaResponseData = MediaResponseData.builder()
-			.mediaType(media.getMediaType())
-			.url(media.getUrl())
-			.build();
-		return mediaResponseData;
-	}
+        MediaResponseData mediaResponseData = MediaResponseData.builder()
+                .mediaType(media.getMediaType())
+                .url(media.getUrl())
+                .build();
+        return mediaResponseData;
+    }
 }

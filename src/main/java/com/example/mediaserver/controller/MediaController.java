@@ -20,11 +20,11 @@ import java.io.IOException;
 @RestController
 @RequiredArgsConstructor
 public class MediaController {
-	private final MediaService mediaService;
+    private final MediaService mediaService;
 
-	@PostMapping("/media")
-	public ResponseEntity<ResultResponse> uploadMedia(MediaDto mediaDto) throws IOException {
-		MediaResponseData mediaResponseData = mediaService.save(mediaDto);
-		return ResponseEntity.ok(new ResultResponse(ResultCode.MEDIA_UPLOAD_SUCCESS, mediaResponseData));
-	}
+    @PostMapping("/media")
+    public ResponseEntity<ResultResponse> uploadMedia(MediaDto mediaDto) throws IOException {
+        MediaResponseData mediaResponseData = mediaService.save(mediaDto);
+        return ResponseEntity.ok(new ResultResponse(ResultCode.MEDIA_UPLOAD_SUCCESS, mediaResponseData));
+    }
 }

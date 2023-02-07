@@ -13,6 +13,7 @@ public class ErrorResponse {
     private int status;
     private String code;
     private String message;
+
     public static ResponseEntity<ErrorResponse> toResponseEntity(ErrorCode errorcode) {
         return ResponseEntity.status(HttpStatus.valueOf(errorcode.getStatus()))
                 .body(ErrorResponse.builder()
@@ -22,6 +23,4 @@ public class ErrorResponse {
                         .build()
                 );
     }
-
-
 }

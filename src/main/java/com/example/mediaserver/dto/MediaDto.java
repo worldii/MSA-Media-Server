@@ -16,7 +16,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MediaDto {
-	private String url;
-	private MultipartFile file;
-	private MediaType mediaType;
+    private String url;
+    private MultipartFile file;
+    private MediaType mediaType;
 }

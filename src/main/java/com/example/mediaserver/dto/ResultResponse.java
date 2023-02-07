@@ -8,15 +8,15 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class ResultResponse<T> {
-	private int status;
-	private String code;
-	private String message;
-	private T data;
+    private int status;
+    private String code;
+    private String message;
+    private T data;
 
-	public ResultResponse(ResultCode resultCode, T data) {
-		this.status = resultCode.getStatus();
-		this.code = resultCode.getCode();
-		this.message = resultCode.getMessage();
-		this.data = data;
-	}
+    public ResultResponse(ResultCode resultCode, T data) {
+        this.status = resultCode.getStatus();
+        this.code = resultCode.getCode();
+        this.message = resultCode.getMessage();
+        this.data = data;
+    }
 }

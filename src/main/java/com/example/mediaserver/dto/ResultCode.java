@@ -7,10 +7,10 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum ResultCode {
 
-	MEDIA_UPLOAD_SUCCESS(200, "M001", "미디어 업로드에 성공하였습니다");
+    MEDIA_UPLOAD_SUCCESS(200, "M001", "미디어 업로드에 성공하였습니다");
 
-	private final int status;
-	private final String code;
-	private final String message;
+    private final int status;
+    private final String code;
+    private final String message;
 }
 
