@@ -1,7 +1,5 @@
 package com.example.mediaserver.model;
 
-// DB 저장을 위한 객체 이다.
-
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -26,31 +24,30 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Media {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "media_id")
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "media_id")
+	private Long id;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "media_type")
-    private MediaType mediaType;
+	@Enumerated(EnumType.STRING)
+	@Column(name = "media_type")
+	private MediaType mediaType;
 
-    @CreationTimestamp
-    @Column(name = "created_at")
-    private LocalDateTime createdAt = LocalDateTime.now();
+	@CreationTimestamp
+	@Column(name = "created_at")
+	private LocalDateTime createdAt = LocalDateTime.now();
 
+	private String url;
 
-    private String url;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id")
+	private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
-
-    @Builder
-    public Media(String url, User user, MediaType mediaType) {
-        this.mediaType = mediaType;
-        this.url = url;
-        this.user = user;
-    }
+	@Builder
+	public Media(String url, User user, MediaType mediaType) {
+		this.mediaType = mediaType;
+		this.url = url;
+		this.user = user;
+	}
 
 }

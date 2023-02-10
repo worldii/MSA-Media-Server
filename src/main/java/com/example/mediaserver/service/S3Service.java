@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 import com.example.mediaserver.exception.CustomException;
 import com.example.mediaserver.exception.ErrorCode;
 import com.example.mediaserver.util.MediaUtil;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -26,33 +27,33 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class S3Service {
 
-    @Value("${cloud.aws.s3.bucket}")
-    private String bucket;
+	@Value("${cloud.aws.s3.bucket}")
+	private String bucket;
 
-    private final AmazonS3 amazonS3;
+	private final AmazonS3 amazonS3;
 
-    @Transactional
-    public void uploadMediaToS3(MediaDto mediaDto, String username) throws IOException {
-        long now = (new Date()).getTime();
-        String fileName = now + mediaDto.getFile().getOriginalFilename();
-        log.info("File name: " + fileName);
+	@Transactional
+	public void uploadMediaToS3(MediaDto mediaDto, String username) throws IOException {
+		long now = (new Date()).getTime();
+		String fileName = now + mediaDto.getFile().getOriginalFilename();
+		log.info("File name: " + fileName);
 
-        String contentType = MediaUtil.findContentType(mediaDto.getFile().getContentType());
-        log.info("Content Type change to Enum Type " + MediaType.valueOf(contentType));
-        mediaDto.setMediaType(MediaType.valueOf(contentType));
+		String contentType = MediaUtil.findContentType(mediaDto.getFile().getContentType());
+		log.info("Content Type change to Enum Type " + MediaType.valueOf(contentType));
+		mediaDto.setMediaType(MediaType.valueOf(contentType));
 
-        String folder = MediaUtil.findFolder(fileName, username, contentType);
+		String folder = MediaUtil.findFolder(fileName, username, contentType);
 
-        ObjectMetadata metadata = new ObjectMetadata();
-        metadata.setContentType(contentType);
+		ObjectMetadata metadata = new ObjectMetadata();
+		metadata.setContentType(contentType);
 
-        amazonS3.putObject(
-                new PutObjectRequest(bucket, folder, mediaDto.getFile().getInputStream(),
-                        metadata).withCannedAcl(
-                        CannedAccessControlList.PublicRead));
+		amazonS3.putObject(
+			new PutObjectRequest(bucket, folder, mediaDto.getFile().getInputStream(),
+				metadata).withCannedAcl(
+				CannedAccessControlList.PublicRead));
 
-        mediaDto.setUrl(amazonS3.getUrl(bucket, fileName).toString());
-    }
+		mediaDto.setUrl(amazonS3.getUrl(bucket, fileName).toString());
+	}
 }
 
 

@@ -10,19 +10,20 @@ import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 
 @Configurable
 public class AwsConfig {
-    @Value("${cloud.aws.credentials.access-key}")
-    private String accessKey;
+	@Value("${cloud.aws.credentials.access-key}")
+	private String accessKey;
 
-    @Value("${cloud.aws.credentials.secret-key}")
-    private String secretKey;
+	@Value("${cloud.aws.credentials.secret-key}")
+	private String secretKey;
 
-    @Value("${cloud.aws.region.static}")
-    private String region;
+	@Value("${cloud.aws.region.static}")
+	private String region;
+
 	public AmazonS3 amazonS3Client() {
-        BasicAWSCredentials awsCredentials = new BasicAWSCredentials(accessKey, secretKey);
-        return AmazonS3ClientBuilder.standard()
-                .withRegion(region)
-                .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
-                .build();
-    }
+		BasicAWSCredentials awsCredentials = new BasicAWSCredentials(accessKey, secretKey);
+		return AmazonS3ClientBuilder.standard()
+			.withRegion(region)
+			.withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
+			.build();
+	}
 }

@@ -11,12 +11,12 @@ import lombok.Setter;
 @Entity
 @Setter
 public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "user_id")
+	private Long id;
 
-    private String userName;
-    private String fullName;
-    private String profilePicture;
+	private String userName;
+	private String fullName;
+	private String profilePicture;
 }

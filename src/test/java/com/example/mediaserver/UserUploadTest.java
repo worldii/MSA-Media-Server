@@ -1,34 +1,25 @@
 package com.example.mediaserver;
 
-import com.example.mediaserver.dto.MediaDto;
 import com.example.mediaserver.model.User;
 import com.example.mediaserver.repository.MediaRepository;
 import com.example.mediaserver.repository.UserRepository;
-import io.restassured.RestAssured;
-import io.restassured.response.ExtractableResponse;
-import io.restassured.response.Response;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.annotation.Rollback;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.multipart.MultipartFile;
+
 
 import javax.transaction.Transactional;
-import java.io.FileInputStream;
-import java.io.IOException;
+
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -40,12 +31,10 @@ public class UserUploadTest {
 
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private MediaRepository mediaRepository;
-
 
     @Autowired
     private ResourceLoader resourceLoader;
+
     @Autowired
     private MockMvc mvc;
 
@@ -53,7 +42,6 @@ public class UserUploadTest {
     @Transactional
     @Rollback(value = false)
     public void beforeEach() {
-
         // 유저를 미리 생성
         userRepository.deleteAll();
         User tempUser = new User();

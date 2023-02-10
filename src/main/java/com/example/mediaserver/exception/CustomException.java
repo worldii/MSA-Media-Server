@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CustomException extends RuntimeException {
-    private ErrorCode errorcode;
+	private ErrorCode errorcode;
 
 }
