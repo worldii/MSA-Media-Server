@@ -28,14 +28,8 @@ public class MediaService {
 
     @Transactional
     public MediaResponseData save(MediaDto mediaDto) throws IOException {
-        //Upload 하는 유저 찾아냄(from User Service)
-        User tempUser = new User();
-        tempUser.setId(1L);
-        tempUser.setUserName("Jongha");
-        tempUser.setFullName("park");
-        userRepository.save(tempUser);
-
-        s3Service.uploadMediaToS3(mediaDto, "jongha");
+        User tempUser = userRepository.findById(mediaDto.getUserId()).orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+        s3Service.uploadMediaToS3(mediaDto, tempUser.getUserName());
 
         Media media = Media.builder().url(mediaDto.getUrl())
                 .mediaType(mediaDto.getMediaType())

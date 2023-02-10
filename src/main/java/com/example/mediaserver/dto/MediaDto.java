@@ -1,21 +1,16 @@
 package com.example.mediaserver.dto;
 
+import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.mediaserver.model.MediaType;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-@Getter
-@Setter
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class MediaDto {
+    private Long userId;
     private String url;
     private MultipartFile file;
     private MediaType mediaType;
