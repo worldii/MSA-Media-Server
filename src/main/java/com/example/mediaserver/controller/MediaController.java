@@ -1,20 +1,14 @@
 package com.example.mediaserver.controller;
 
-import javax.validation.Valid;
-
 import com.example.mediaserver.dto.*;
 
 import lombok.extern.slf4j.Slf4j;
-
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.mediaserver.service.MediaService;
 
 import lombok.RequiredArgsConstructor;
-
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 

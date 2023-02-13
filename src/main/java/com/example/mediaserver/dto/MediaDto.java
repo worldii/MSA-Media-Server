@@ -12,6 +12,7 @@ import com.example.mediaserver.model.MediaType;
 @Builder
 public class MediaDto {
 	private Long userId;
+	private String userName;
 	private String url;
 	private MultipartFile file;
 	private MediaType mediaType;

@@ -1,8 +1,8 @@
 package com.example.mediaserver;
 
 import com.example.mediaserver.model.User;
-import com.example.mediaserver.repository.MediaRepository;
-import com.example.mediaserver.repository.UserRepository;
+//import com.example.mediaserver.repository.MediaRepository;
+//import com.example.mediaserver.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,8 +19,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 
 import javax.transaction.Transactional;
-
-
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -29,8 +27,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class UserUploadTest {
 
-    @Autowired
-    private UserRepository userRepository;
+    // @Autowired
+    // private UserRepository userRepository;
 
     @Autowired
     private ResourceLoader resourceLoader;
@@ -38,17 +36,17 @@ public class UserUploadTest {
     @Autowired
     private MockMvc mvc;
 
-    @BeforeEach
-    @Transactional
-    @Rollback(value = false)
-    public void beforeEach() {
-        // 유저를 미리 생성
-        userRepository.deleteAll();
-        User tempUser = new User();
-        tempUser.setUserName("jongha");
-        tempUser.setFullName("sdasda");
-        userRepository.save(tempUser);
-    }
+    // @BeforeEach
+    // @Transactional
+    // @Rollback(value = false)
+    // public void beforeEach() {
+    //     // 유저를 미리 생성
+    //     userRepository.deleteAll();
+    //     User tempUser = new User();
+    //     tempUser.setUserName("jongha");
+    //     tempUser.setFullName("sdasda");
+    //     userRepository.save(tempUser);
+    // }
 
     @DisplayName("이미지를 업로드 한 후 성공 시 200 OK 를 반환한다. ")
     @Test
@@ -67,6 +65,7 @@ public class UserUploadTest {
                 multipart("/media")
                         .file(file)
                         .param("userId", "1")
+                        .param("userName", "jongha")
         ).andExpect(status().isOk());
 
     }

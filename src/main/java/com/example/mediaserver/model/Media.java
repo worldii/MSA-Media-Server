@@ -39,15 +39,19 @@ public class Media {
 
 	private String url;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id")
-	private User user;
+	// @ManyToOne(fetch = FetchType.LAZY)
+	// @JoinColumn(name = "user_id")
+	// private User user;
+	private Long userId;
+	private String userName;
 
 	@Builder
-	public Media(String url, User user, MediaType mediaType) {
+	public Media(String url, Long userId, MediaType mediaType, String userName) {
 		this.mediaType = mediaType;
 		this.url = url;
-		this.user = user;
+		//this.user = user;
+		this.userId = userId;
+		this.userName = userName;
 	}
 
 }
